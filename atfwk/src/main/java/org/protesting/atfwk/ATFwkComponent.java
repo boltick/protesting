@@ -2,9 +2,8 @@ package org.protesting.atfwk;
 
 /**
  * ATFwkComponent class
- * User: AB83625
+ * Author: Alexey Bulat
  * Date: 06/05/13
- * To change this template use File | Settings | File Templates.
  */
 public class ATFwkComponent extends ATFwkObjectWithProperties {
 

@@ -25,7 +25,7 @@
         <developerConnection>scm:svn:https://svn.code.sf.net/p/atfwk/code-0/trunk</developerConnection>
         <url>https://svn.code.sf.net/p/atfwk/code-0/trunk</url>
     </scm>
-    svn checkout svn://svn.code.sf.net/p/atfwk/code-0/trunk atfwk-code-0
+
 	<dependencies>
 		<dependency>
 			<groupId>log4j</groupId>

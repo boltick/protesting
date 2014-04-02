@@ -5,9 +5,8 @@ import java.util.Map;
 
 /**
  * Created by IntelliJ IDEA.
- * User: ab83625
+ * Author: Alexey Bulat
  * Date: 24.01.2011
- * To change this template use File | Settings | File Templates.
  */
 public class ATFwkPageObject {
 

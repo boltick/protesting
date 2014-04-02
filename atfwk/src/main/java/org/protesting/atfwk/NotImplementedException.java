@@ -2,9 +2,8 @@ package org.protesting.atfwk;
 
 /**
  * NotImplementedException class
- * User: ab83625
+ * Author: Alexey Bulat
  * Date: 26.01.2010
- * To change this template use File | Settings | File Templates.
  */
 public class NotImplementedException extends RuntimeException {
 

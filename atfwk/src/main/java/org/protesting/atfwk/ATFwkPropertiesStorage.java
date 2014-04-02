@@ -6,9 +6,8 @@ import java.util.HashMap;
 
 /**
  * ATFwkPropertiesStorage class
- * User: ab83625
+ * Author: Alexey Bulat
  * Date: 19.02.2010
- * To change this template use File | Settings | File Templates.
  */
 public class ATFwkPropertiesStorage {
 

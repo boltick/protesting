@@ -4,9 +4,8 @@ import java.net.URL;
 
 /**
  * ATFwkWebBrowser interface
- * User: ab83625
+ * Author: Alexey Bulat
  * Date: 08.05.2009
- * To change this template use File | Settings | File Templates.
  */
 public interface ATFwkWebBrowser {
 

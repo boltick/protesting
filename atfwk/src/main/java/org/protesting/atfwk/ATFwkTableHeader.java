@@ -4,9 +4,8 @@ import java.util.List;
 
 /**
  * ATFwkTableHeader class
- * User: AB83625
+ * Author: Alexey Bulat
  * Date: 08/03/13
- * To change this template use File | Settings | File Templates.
  */
 public class ATFwkTableHeader {
 

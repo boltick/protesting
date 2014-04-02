@@ -21,9 +21,8 @@ import java.util.concurrent.TimeUnit;
 /**
  * ATFwk implementation of the Selenium WebDriver browserDriver. Currently only InternetExplorerDriver is supported.
  *
- * User: AB83625
+ * Author: Alexey Bulat
  * Date: 08/02/13
- * To change this template use File | Settings | File Templates.
  */
 public class Selenium2WebBrowser implements ATFwkWebBrowser {
 

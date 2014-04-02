@@ -13,10 +13,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created with IntelliJ IDEA.
- * User: ab83625
+ * Author: Alexey Bulat
  * Date: 04/12/13
- * To change this template use File | Settings | File Templates.
  */
 public class Win32Utils {
 

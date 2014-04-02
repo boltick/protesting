@@ -2,9 +2,8 @@ package org.protesting.atfwk;
 
 /**
  * ParsePageException class
- * User: ab83625
+ * Author: Alexey Bulat
  * Date: 14.01.2011
- * To change this template use File | Settings | File Templates.
  */
 public class ParsePageException extends RuntimeException {
 

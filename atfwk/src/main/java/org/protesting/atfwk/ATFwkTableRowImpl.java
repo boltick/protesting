@@ -2,9 +2,8 @@ package org.protesting.atfwk;
 
 /**
  * ATFwkTableRowImpl interface
- * User: AB83625
+ * Author: Alexey Bulat
  * Date: 27/05/13
- * To change this template use File | Settings | File Templates.
  */
 public interface ATFwkTableRowImpl {
 

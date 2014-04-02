@@ -9,9 +9,8 @@ import org.apache.log4j.Logger;
  * ATFwkPage is a Page Object pattern implementation. It provides a number
  * of service methods to work with page and its static and dynamic content.
  *
- * User: ab83625
+ * Author: Alexey Bulat
  * Date: 10.06.2009
- * To change this template use File | Settings | File Templates.
  */
 public class ATFwkPage extends ATFwkObjectWithProperties {
 

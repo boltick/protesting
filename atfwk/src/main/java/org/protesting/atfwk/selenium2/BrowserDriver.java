@@ -10,9 +10,8 @@ import org.openqa.selenium.remote.RemoteWebDriver;
 
 /**
  * Enumeration for the Selenium Web Drivers.
- * User: ab83625
+ * Author: Alexey Bulat
  * Date: 03/12/13
- * To change this template use File | Settings | File Templates.
  */
 public enum BrowserDriver {
 

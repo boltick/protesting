@@ -2,9 +2,8 @@ package org.protesting.atfwk;
 
 /**
  * ActionExecutionException class
- * User: AB83625
+ * Author: Alexey Bulat
  * Date: 13/05/11
- * To change this template use File | Settings | File Templates.
  */
 public class ActionExecutionException extends RuntimeException {
 

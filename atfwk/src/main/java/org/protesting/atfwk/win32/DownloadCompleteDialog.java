@@ -1,10 +1,8 @@
 package org.protesting.atfwk.win32;
 
 /**
- * Created with IntelliJ IDEA.
- * User: ab83625
+ * Author: Alexey Bulat
  * Date: 02/01/14
- * To change this template use File | Settings | File Templates.
  */
 public class DownloadCompleteDialog extends WinDialog {
 

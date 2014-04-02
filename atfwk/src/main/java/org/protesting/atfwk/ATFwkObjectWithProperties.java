@@ -11,9 +11,8 @@ import java.util.Properties;
 
 /**
  * Base class to support objects with properties.
- * User: AB83625
+ * Author: Alexey Bulat
  * Date: 23/09/11
- * To change this template use File | Settings | File Templates.
  */
 public class ATFwkObjectWithProperties {
 

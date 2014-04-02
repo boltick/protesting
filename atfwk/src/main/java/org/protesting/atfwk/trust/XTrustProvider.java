@@ -12,9 +12,7 @@ import javax.net.ssl.*;
 
 /**
  * XTrustProvider class
- * User: AB83625
  * Date: 15/02/13
- * To change this template use File | Settings | File Templates.
  */
 public final class XTrustProvider extends java.security.Provider {
 

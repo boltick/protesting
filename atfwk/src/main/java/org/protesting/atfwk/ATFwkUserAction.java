@@ -5,9 +5,8 @@ import java.util.List;
 
 /**
  * Base class for GUI User actions
- * User: AB83625
+ * Author: Alexey Bulat
  * Date: 07/03/13
- * To change this template use File | Settings | File Templates.
  */
 public class ATFwkUserAction {
 

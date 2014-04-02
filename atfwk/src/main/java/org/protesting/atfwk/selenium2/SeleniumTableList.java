@@ -11,7 +11,7 @@ import java.util.List;
 /**
  * SeleniumTableList is an class designed to work with HTML tables currently displayed on the page.
  *
- * User: AB83625
+ * Author: Alexey Bulat
  * Date: 04/04/13
  */
 public class SeleniumTableList {

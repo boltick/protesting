@@ -2,9 +2,8 @@ package org.protesting.atfwk.win32;
 
 /**
  * Smart Card dialog object.
- * User: ab83625
+ * Author: Alexey Bulat
  * Date: 02/01/14
- * To change this template use File | Settings | File Templates.
  */
 public class GemaltoSmartCardDialog extends WinDialog {
 

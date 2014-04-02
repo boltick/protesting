@@ -3,10 +3,8 @@ package org.protesting.atfwk.win32;
 import org.apache.log4j.Logger;
 
 /**
- * Created with IntelliJ IDEA.
- * User: ab83625
+ * Author: Alexey Bulat
  * Date: 02/01/14
- * To change this template use File | Settings | File Templates.
  */
 public class WinUtils extends Win32Utils {
 

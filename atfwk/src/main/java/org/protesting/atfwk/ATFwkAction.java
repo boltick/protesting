@@ -5,9 +5,8 @@ import java.util.Map;
 
 /**
  * ATFwkAction interface
- * User: AB83625
+ * Author: Alexey Bulat
  * Date: 25/02/13
- * To change this template use File | Settings | File Templates.
  */
 public interface ATFwkAction {
 

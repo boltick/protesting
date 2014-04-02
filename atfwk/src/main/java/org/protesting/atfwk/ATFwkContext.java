@@ -6,9 +6,8 @@ import java.util.Date;
 
 /**
  * ATFwkContext class
- * User: ab83625
+ * Author: Alexey Bulat
  * Date: 16.04.2010
- * To change this template use File | Settings | File Templates.
  */
 public class ATFwkContext {
 

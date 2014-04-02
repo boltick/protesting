@@ -4,9 +4,8 @@ import java.awt.*;
 
 /**
  * ATFwk wrapper for awt.Robot
- * User: ab83625
+ * Author: Alexey Bulat
  * Date: 30.06.2010
- * To change this template use File | Settings | File Templates.
  */
 public class ATFwkRobot extends Robot {
 

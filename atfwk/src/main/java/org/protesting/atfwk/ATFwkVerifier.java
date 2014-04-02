@@ -2,9 +2,8 @@ package org.protesting.atfwk;
 
 /**
  * ATFwkVerifier interface
- * User: AB83625
+ * Author: Alexey Bulat
  * Date: 25/02/13
- * To change this template use File | Settings | File Templates.
  */
 public interface ATFwkVerifier {
 

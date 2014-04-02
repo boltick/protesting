@@ -1,0 +1,22 @@
+<type name="full_name">
+    <chunk name="first_name">
+        <requirement type="length">
+            <length value="2-25" />
+            <charset accepted="a-zA-Z" rejected="0-9"/>
+        </requirement>
+    </chunk>
+    <separator value=" "/>
+    <chunk name="initials">
+        <requirement type="length">
+            <length value="1" />
+            <charset accepted="a-zA-Z" rejected="0-9 ~!@#$%^&amp;*()_+"/>
+        </requirement>
+    </chunk>
+    <separator value=" "/>
+    <chunk name="last_name" isRequired="true">
+        <requirement type="length">
+            <length value="2-25" />
+            <charset accepted="a-zA-Z" rejected="0-9"/>
+        </requirement>
+    </chunk>
+</type>

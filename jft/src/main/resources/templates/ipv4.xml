@@ -1,0 +1,29 @@
+<type name="ipv4">
+    <chunk name="first_part" isRequired="true">
+        <requirement type="boundary">
+            <border type="java.lang.Integer" leftValue="0" rightValue="255" inclusive="true"/>
+            <charset accepted="0-9" rejected="a-zA-Z"/>
+        </requirement>
+    </chunk>
+    <separator value="."/>
+    <chunk name="second_part" isRequired="true">
+        <requirement type="boundary">
+            <border type="java.lang.Integer" leftValue="0" rightValue="255" inclusive="true"/>
+            <charset accepted="0-9" rejected="a-zA-Z"/>
+        </requirement>
+    </chunk>
+    <separator value="."/>
+    <chunk name="third_part">
+        <requirement type="boundary" isRequired="true">
+            <border type="java.lang.Integer" leftValue="0" rightValue="255" inclusive="true"/>
+            <charset accepted="0-9" rejected="a-zA-Z"/>
+        </requirement>
+    </chunk>
+    <separator value="."/>
+    <chunk name="fourth_part">
+        <requirement type="boundary" isRequired="true">
+            <border type="java.lang.Integer" leftValue="0" rightValue="255" inclusive="true"/>
+            <charset accepted="0-9" rejected="a-zA-Z"/>
+        </requirement>
+    </chunk>
+</type>

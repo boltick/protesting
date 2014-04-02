@@ -1,0 +1,33 @@
+<!--
+    Generator.xml configuration file
+    Alexey Bulat (c) protesting.ru
+-->
+<generator>
+    <!--
+    Generic Generator Properties
+    -->
+    <generic-generator type="java.lang.Integer" class="org.protesting.jft.generator.generic.IntegerGenerator" />
+    <generic-generator type="java.lang.Long" class="org.protesting.jft.generator.generic.LongGenerator" />
+    <generic-generator type="java.lang.Float" class="org.protesting.jft.generator.generic.FloatGenerator" />
+    <generic-generator type="java.lang.Double" class="org.protesting.jft.generator.generic.DoubleGenerator" />
+    <generic-generator type="java.util.Date" class="org.protesting.jft.generator.generic.DateGenerator" />
+    <generic-generator type="java.lang.String" class="org.protesting.jft.generator.symbols.StringGenerator" />
+
+    <!--
+    Symbol Generator Properties
+    -->
+    <symbols-generator id="symbols.alphabet.ru" alias="Alphabet Russsian" encode="utf-8" />
+    <symbols-generator id="symbols.alphabet.en" alias="Alphabet English" encode="utf-8" />
+    <symbols-generator id="symbols.numeric" alias="Numeric" encode="utf-8" />
+    <symbols-generator id="symbols.ascii" alias="ASCII" encode="utf-8" />
+    <symbols-generator id="symbols.platform.dependent" alias="Platform Dependent" encode="utf-8" />
+    <symbols-generator id="symbols.cjk.punctuation" alias="CJK Punctuation" encode="utf-16" />
+    <symbols-generator id="symbols.cjk.unified" alias="CJK Unified Ideographs" encode="utf-16" />
+    <symbols-generator id="symbols.japanese.hiragana" alias="Japanese Hiragana" encode="utf-8" />
+    <symbols-generator id="symbols.japanese.katakana" alias="Japanese Katakana" encode="utf-8" />
+    <symbols-generator id="symbols.japanese.zenkaku.digits" alias="Japanese Zenkaku Digits" encode="utf-8" />
+    <symbols-generator id="symbols.japanese.zenkaku.alphabet.digits" alias="Japanese Zenkaku Alphabet Digits" encode="utf-8" />
+    <symbols-generator id="symbols.japanese.zenkaku.alphabet.digits.symbols" alias="Japanese Zenkaku Alphabet Digits Symbols" encode="utf-16" />
+    <symbols-generator id="symbols.japanese.hankaku" alias="Japanese Hankaku" encode="utf-8" />
+</generator>
+

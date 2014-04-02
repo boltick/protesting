@@ -1,0 +1,30 @@
+<!--
+    requirements.xml configuration file
+    Alexey Bulat (c) protesting.ru
+-->
+<requirement>
+    <req id="boundary">
+        <class name="org.protesting.jft.form.requirements.BoundaryRequirement" />
+        <xml-parser-class name="org.protesting.jft.data.xml.requirements.BoundaryRequirement" />
+        <data-generator-class name="org.protesting.jft.generator.BoundaryValueGenerator" />
+    </req>
+    <req id="length">
+        <class name="org.protesting.jft.form.requirements.LengthRequirement" />
+        <xml-parser-class name="org.protesting.jft.data.xml.requirements.LengthRequirement" />
+        <data-generator-class name="org.protesting.jft.generator.LengthValueGenerator" />
+    </req>
+    <req id="boolean">
+        <class name="org.protesting.jft.form.requirements.BooleanRequirement" />
+        <xml-parser-class name="org.protesting.jft.data.xml.requirements.BooleanRequiriment" />
+        <data-generator-class name="org.protesting.jft.generator.BooleanValueGenerator" />
+    </req>
+    <req id="selected">
+        <class name="org.protesting.jft.form.requirements.SelectedRequirement" />
+        <xml-parser-class name="org.protesting.jft.data.xml.requirements.SelectedRequirement" />
+        <data-generator-class name="org.protesting.jft.generator.SelectedValueGenerator" />
+    </req>
+    <req id="custom">
+        <class name="org.protesting.jft.form.requirements.Requirement" />
+        <data-generator-class name="org.protesting.jft.generator.CustomFieldValueGenerator" />
+    </req>
+</requirement>

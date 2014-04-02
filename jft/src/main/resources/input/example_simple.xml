@@ -1,0 +1,42 @@
+<form name="Simple">
+    <field name="Float_Field" type="edit_box" isRequired="true">
+        <value default="-1.00"/>
+        <requirement type="boundary">
+            <border type="java.lang.Float" leftValue="0.00" rightValue="1000.00" inclusive="true"/>
+            <!--not required-->
+            <!--<format type="java.text.DecimalFormat" value="###.00"/>-->
+            <charset accepted="0-9"/>
+        </requirement>
+    </field>
+    <field name="Integer_Field" type="edit_box" isRequired="true">
+        <value default="1"/>
+        <requirement type="boundary">
+            <border type="java.lang.Integer" leftValue="-100" rightValue="100" inclusive="false"/>
+            <charset accepted="0-9" rejected="a-z"/>
+        </requirement>
+    </field>
+    <field name="Long_Field" type="edit_box" isRequired="true">
+        <value default="10000"/>
+        <requirement type="boundary">
+            <border type="java.lang.Long" leftValue="0" rightValue="10000000000" inclusive="true"/>
+            <charset accepted="0-9" rejected="a-z"/>
+        </requirement>
+    </field>
+    <field name="birth_date" type="edit_box">
+	<value default="10.10.1979"/>
+        <requirement type="boundary">
+            <border type="java.util.Date" leftValue="01.01.1908" rightValue="23.04.2008" inclusive="true"/>
+            <!--not required-->
+            <format type="java.text.SimpleDateFormat" value="dd.MM.yyyy"/>
+            <charset accepted="0-9." rejected="a-zA-Z~!@#$%^&amp;*()_+"/>
+        </requirement>
+    </field>
+    <field name="String_Field" type="edit_box" isRequired="true">
+        <value default="test-value"/>
+        <requirement type="length">
+            <length value="100" />
+            <!--not required-->
+            <charset accepted="a-zA-Z" rejected=""/>
+        </requirement>
+    </field>
+</form>

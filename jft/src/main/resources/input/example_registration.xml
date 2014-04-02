@@ -1,0 +1,37 @@
+<form name="Registration">
+    <field name="first_name" type="text_area" isRequired="false">
+	<value default="defaultFirstName"/>
+        <requirement type="length">
+            <length value="2-25" />
+            <!--not required-->
+            <charset accepted="a-z" rejected="0-9"/>
+        </requirement>
+    </field>
+    <field name="last_name" type="edit_box" isRequired="true">
+	<value default="defaultLastName"/>
+        <requirement type="length">
+            <length value="2-25" />
+            <!--not required-->
+            <charset accepted="0-9" rejected=""/>
+        </requirement>
+    </field>
+    <field name="birth_date" type="edit_box">
+	<value default="10/10/1979"/>
+        <requirement type="boundary">
+            <border type="java.util.Date" leftValue="01/01/1908" rightValue="23/04/2008" inclusive="true"/>
+            <!--not required-->
+            <format type="java.text.SimpleDateFormat" value="dd/MM/yyyy"/>
+            <charset accepted="0-9." rejected="a-zA-Z~!@#$%^&amp;*()_+"/>
+        </requirement>
+    </field>
+    <field name="nick_name" type="edit_box" isRequired="true">
+        <requirement type="length">
+            <length value="2-25" />
+            <!--not required-->
+            <charset accepted="0-9" rejected="~!@#$%^&amp;*()_+"/>
+        </requirement>
+    </field>
+    <field name="agree" type="radio_button">
+        <requirement type="boolean" />
+    </field>
+</form>

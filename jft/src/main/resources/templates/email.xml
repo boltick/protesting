@@ -1,0 +1,22 @@
+<type name="email">
+    <chunk name="name">
+        <requirement type="length">
+            <length value="3-25" />
+            <charset accepted="0-9a-zA-Z"/>
+        </requirement>
+    </chunk>
+    <separator value="@"/>
+    <chunk name="domain">
+        <requirement type="length">
+            <length value="3-25" />
+            <charset accepted="a-zA-Z" rejected="~!@#$%^&amp;*()_+"/>
+        </requirement>
+    </chunk>
+    <separator value="."/>
+    <chunk name="zone" isRequired="true">
+        <requirement type="length">
+            <length value="2-3" />
+            <charset accepted="a-zA-Z" rejected="0-9"/>
+        </requirement>
+    </chunk>
+</type>

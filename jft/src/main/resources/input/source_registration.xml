@@ -1,0 +1,102 @@
+<form name="SourceForge_Registration_test">
+    <field name="first_name" type="text_area" isRequired="true">
+        <requirement type="length">
+            <length value="2-25" />
+            <!--not required-->
+            <charset accepted="0-9a-zA-Z"/>
+        </requirement>
+    </field>
+
+    <field name="last_name" type="edit_box" isRequired="true">
+        <requirement type="length">
+            <length value="2-25" />
+            <!--not required-->
+            <charset accepted="0-9a-zA-Z"/>
+        </requirement>
+    </field>
+
+    <field name="email" type="edit_box" source="email" isRequired="true"/>
+
+    <field name="confirm_email" type="edit_box" source="email" sameas="email"/>
+
+    <field name="language_code" type="combo_box" isRequired="true">
+        <requirement type="selected">
+            <select number="100" multiple-select="false"/>
+        </requirement>
+    </field>
+
+
+    <field name="time_zone" type="combo_box" isRequired="true">
+        <requirement type="selected">
+            <select number="50" multiple-select="false"/>
+        </requirement>
+    </field>
+
+    <field name="country" type="combo_box" isRequired="true">
+        <requirement type="selected">
+            <select number="75" multiple-select="false"/>
+        </requirement>
+    </field>
+
+
+    <field name="public_name" type="edit_box" isRequired="true">
+        <requirement type="length">
+            <length value="2-25" />
+            <!--not required-->
+            <charset accepted="0-9a-zA-Z" rejected="~!@#$%^&amp;*()_+"/>
+        </requirement>
+    </field>
+
+    <field name="username" type="edit_box" isRequired="true">
+        <requirement type="length">
+            <length value="3-15" />
+            <!--not required-->
+            <charset accepted="0-9a-zA-Z" rejected="~!@#$%^&amp;*()_+"/>
+        </requirement>
+    </field>
+
+    <field name="password" type="edit_box" isRequired="true">
+        <requirement type="length">
+            <length value="6-25" />
+            <!--not required-->
+            <charset accepted="0-9a-zA-Z" rejected="~!@#$%^&amp;*()_+"/>
+        </requirement>
+    </field>
+
+    <field name="confirm_password" type="edit_box" sameas="password"/>
+
+
+    <field name="security_question" type="combo_box" isRequired="true">
+        <requirement type="selected">
+            <select number="4" multiple-select="false"/>
+        </requirement>
+    </field>
+
+
+    <field name="sequrity_answer" type="edit_box" isRequired="true">
+        <requirement type="length">
+            <length value="6-35" />
+            <!--not required-->
+            <charset accepted="0-9a-zA-Z" rejected="~!@#$%^&amp;*()_+"/>
+        </requirement>
+    </field>
+
+
+    <field name="receive_email" type="check_box">
+        <value default="true"/>
+        <requirement type="boolean"/>
+    </field>
+
+    <field name="receive_mailings" type="check_box">
+        <requirement type="boolean"/>
+    </field>
+
+    <field name="accept_terms" type="check_box" isRequired="true">
+        <requirement type="boolean"/>
+    </field>
+
+    <field name="18age" type="check_box" isRequired="true">
+        <requirement type="boolean"/>
+    </field>
+
+</form>

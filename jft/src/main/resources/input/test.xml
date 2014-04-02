@@ -1,0 +1,7 @@
+<form name="test">
+    <field name="Float_Field" type="edit_box">
+        <requirement type="boundary">
+            <border type="java.lang.Float" leftValue="-100.00" rightValue="10.00" inclusive="false"/>
+        </requirement>
+    </field>
+</form>

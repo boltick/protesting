@@ -3,9 +3,8 @@ package org.protesting.atfwk;
 import org.apache.commons.lang.ClassUtils;
 import org.apache.log4j.Logger;
 
-import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
+import java.net.URL;
 import java.util.List;
 import java.util.Properties;
 
@@ -35,13 +34,13 @@ public class ATFwkObjectWithProperties {
         if (!getPageContext().getPropertiesStorage().exists(className)) {
             this.properties = new Properties();
             List superClasses = ClassUtils.getAllSuperclasses(getClass());
-            File file;
+            URL file;
             for (int i = superClasses.size() - 2; i >= 0 ; i--) {
                 Class aClass = (Class) superClasses.get(i);
                 String atfwkPropertyKeyName = getATFwkClassName(aClass);
-                file = new File(getResourcesPath(atfwkPropertyKeyName));
+                file = getClass().getClassLoader().getResource(getResourcesPath(atfwkPropertyKeyName));
                 if (getPageContext().getPropertiesStorage().getProperty(atfwkPropertyKeyName) == null) {
-                    if (file.exists()) {
+                    if (null != file) {
                         putAllProperties(file);
                         updateStorage(atfwkPropertyKeyName, getProperties());
                     }
@@ -49,7 +48,7 @@ public class ATFwkObjectWithProperties {
                     putAllProperties(getPageContext().getPropertiesStorage().getProperty(atfwkPropertyKeyName));
                 }
             }
-            file = new File(getResourcesPath(className));
+            file = getClass().getClassLoader().getResource(getResourcesPath(className));
             putAllProperties(file);
             updateStorage(this, getProperties());
         } else {
@@ -69,9 +68,9 @@ public class ATFwkObjectWithProperties {
         return getPageContext().getResourcesPath(name);
     }
 
-    private void putAllProperties(File propertiesFile) {
+    private void putAllProperties(URL propertiesFileURL) {
         try {
-            this.properties.load(new FileReader(propertiesFile));
+            this.properties.load(propertiesFileURL.openStream());
         } catch (IOException e) {
             LOG.warn("Property reading error", e);
         }

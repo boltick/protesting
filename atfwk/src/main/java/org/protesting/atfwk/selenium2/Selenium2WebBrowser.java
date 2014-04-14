@@ -19,7 +19,8 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 /**
- * ATFwk implementation of the Selenium WebDriver browserDriver. Currently only InternetExplorerDriver is supported.
+ * ATFwk implementation of the Selenium WebDriver browserDriver.
+ * Tested with IE and Chrome
  *
  * Author: Alexey Bulat
  * Date: 08/02/13

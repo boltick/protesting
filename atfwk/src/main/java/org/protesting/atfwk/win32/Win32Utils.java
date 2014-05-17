@@ -212,7 +212,7 @@ public class Win32Utils {
 
                     }
                 }
-                return false | !isLabelFound;
+                return !isLabelFound;
             }
         }, 0);
 

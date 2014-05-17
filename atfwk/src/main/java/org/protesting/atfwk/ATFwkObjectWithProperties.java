@@ -13,14 +13,14 @@ import java.util.Properties;
  * Author: Alexey Bulat
  * Date: 23/09/11
  */
-public class ATFwkObjectWithProperties {
+class ATFwkObjectWithProperties {
 
-    public static final Logger LOG = Logger.getLogger(ATFwkObjectWithProperties.class);
+    private static final Logger LOG = Logger.getLogger(ATFwkObjectWithProperties.class);
 
     private ATFwkContext pageContext;
     private Properties properties;
 
-    protected ATFwkObjectWithProperties() {
+    ATFwkObjectWithProperties() {
         setPageContext(ATFwkContext.getInstance());
         initProperties();
     }

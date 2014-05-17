@@ -25,7 +25,7 @@ public abstract class AbstractCustomFieldValueGenerator extends AbstractValueGen
     }
 
     public void generateRowValues() {
-        String [] type = Configurator.getProperty("test.case.type").split(",");
+        String [] type = Configurator.getInstance().getProperty("test.case.type").split(",");
 
         Template templateForm = getCustomField().getTemplate();
         AbstractTestCaseGenerator generator = new TestCaseGenerator(templateForm);

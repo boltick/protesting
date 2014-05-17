@@ -7,6 +7,7 @@ import org.w3c.dom.NodeList;
 import org.protesting.jft.utils.ParseHelper;
 
 import java.io.File;
+import java.io.IOException;
 
 /**
  * Service class for getting needed data from requirements.xml 
@@ -29,18 +30,31 @@ public final class RequirementConfig {
 
     private static Element requirementDataElenemt;
 
-    static {
-        if (!Configurator.getProperties().get("jft.local").equals("true")) {
-            requirementDataElenemt = ParseHelper.getConfigElement(new RequirementConfig(), Configurator.getProperties().get(Configurator.JFT_CONFIG_PATH)
-                    + File.separator
+    private static RequirementConfig config;
+
+    private RequirementConfig() throws IOException {
+        if (!Configurator.getInstance().getProperties().get("jft.local").equals("true")) {
+            requirementDataElenemt = ParseHelper.getConfigElement(Configurator.getInstance().getProperties().get(Configurator.JFT_CONFIG_PATH)
+                    + "/"
                     + REQUIREMENTS_XML_FILE);
         } else {
             requirementDataElenemt = ParseHelper.getDocument(System.getProperty("user.dir")
-                    + File.separator
-                    + Configurator.getProperties().get(Configurator.JFT_CONFIG_PATH)
-                    + File.separator
+                    + "/"
+                    + Configurator.getInstance().getProperties().get(Configurator.JFT_CONFIG_PATH)
+                    + "/"
                     + REQUIREMENTS_XML_FILE).getDocumentElement();
         }
+    }
+
+    public static RequirementConfig getInstance() {
+        if (config == null) {
+            try {
+                config = new RequirementConfig();
+            } catch (IOException e) {
+                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            }
+        }
+        return config;
     }
 
     /**
@@ -49,12 +63,7 @@ public final class RequirementConfig {
      * @param data - needed requirement data
      * @return string with requirement data
      */
-    synchronized public static String getRequirementData(String reqId, String data) {
-// Local implementation        
-//        Element requirementDataElenemt = ParseHelper.getDocument(Configurator.getProperties().get(Configurator.JFT_CONFIG_PATH)
-//                + File.separator
-//                + REQUIREMENTS_XML_FILE).getDocumentElement();
-//
+    synchronized public String getRequirementData(String reqId, String data) {
         NodeList nl = requirementDataElenemt.getElementsByTagName("req");
         if(nl != null && nl.getLength() > 0) {
             for(int i = 0 ; i < nl.getLength();i++) {

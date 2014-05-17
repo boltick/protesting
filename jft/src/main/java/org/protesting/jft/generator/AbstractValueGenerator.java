@@ -52,11 +52,7 @@ public abstract class AbstractValueGenerator extends ValueGenerator implements G
     public abstract void generateRowValues();
 
     public void addMandatoryValues() {
-//        if(!getField().getRequirement().isRequired()) {
             addValue(new TestValue("EMPTY", "", getCommonRequirement(), !getField().getRequirement().isRequired()));
-//        } else {
-//            addValue(new TestValue("EMPTY", "", getCommonRequirement(), !getField().getRequirement().isRequired()));
-//        }
     }
 
 

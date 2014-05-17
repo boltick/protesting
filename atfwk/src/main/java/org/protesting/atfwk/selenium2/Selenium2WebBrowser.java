@@ -1087,7 +1087,7 @@ public class Selenium2WebBrowser implements ATFwkWebBrowser {
 
         public boolean isTextPresent(String text, boolean doKeepSilence) {
             boolean isPresent = isTextPresent(text);
-            if(doKeepSilence && isPresent) {
+            if (doKeepSilence && isPresent) {
                 return isPresent;
             }
             return false;

@@ -26,9 +26,10 @@ public class Generator {
         Class valGenClass = null;
         try {
             valGenClass = Class.forName(
-                    RequirementConfig.getRequirementData(
-                            requirement.getReqID(),
-                            RequirementConfig.DATA_GENERATOR_CLASS));
+                    RequirementConfig.getInstance()
+                            .getRequirementData(
+                                    requirement.getReqID(),
+                                    RequirementConfig.DATA_GENERATOR_CLASS));
             Object[] args = new Object[] { requirement };
             Class[] types = new Class[] { requirement.getClass()};
             generatorForRequirement = (AbstractValueGenerator) valGenClass.getConstructor(types).newInstance(args);
@@ -46,11 +47,11 @@ public class Generator {
             logger.error("Generation error: ", e);
         } catch (InstantiationException e) {
             logger.error("Generation error: ", e);
-        } 
+        }
 
         throw new IllegalStateException("Generator by requirement initialization - FAILED");
     }
-    
+
 
     public static AbstractValueGenerator getValueGenerator(Field field) {
         logger.debug("Generator by field initialization - started");
@@ -60,9 +61,10 @@ public class Generator {
 
         try {
             valGenClass = Class.forName(
-                    RequirementConfig.getRequirementData(
-                            requirement.getReqID(),
-                            RequirementConfig.DATA_GENERATOR_CLASS));
+                    RequirementConfig.getInstance()
+                            .getRequirementData(
+                                    requirement.getReqID(),
+                                    RequirementConfig.DATA_GENERATOR_CLASS));
             Object[] args = new Object[] { field };
             Class[] types = new Class[] { Field.class };
             generatorForRequirement = (AbstractValueGenerator) valGenClass.getConstructor(types).newInstance(args);
@@ -82,7 +84,7 @@ public class Generator {
         } catch (InstantiationException e) {
             logger.error("Generation error: ", e);
         }
-        
+
         IllegalStateException e = new IllegalStateException("Generator by field ["+field.getName()+"] initialization - FAILED");
         logger.error("Generation error: ", e);
         throw e;

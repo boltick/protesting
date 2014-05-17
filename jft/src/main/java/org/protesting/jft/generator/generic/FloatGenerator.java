@@ -17,9 +17,6 @@ public class FloatGenerator implements GenericGenerator {
     }
 
     public Object getValue(Object leftBorder, Object rightBorder) {
-//        float left = ((Float) leftBorder).floatValue();
-//        float right = ((Float) rightBorder).floatValue();
-//        return new Float(RandomUtils.nextFloat() * (right - left) + left);
         double left = ((Float) leftBorder).doubleValue();   // Use double to avoid silence overflow
         double right = ((Float) rightBorder).doubleValue(); // for Float.MIN_VALUE & Float.MAX_VALUE
         return new Float(Math.random() *(right - left) + left);

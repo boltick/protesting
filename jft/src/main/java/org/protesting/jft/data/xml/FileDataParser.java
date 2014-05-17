@@ -2,12 +2,13 @@ package org.protesting.jft.data.xml;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.protesting.jft.config.Configurator;
 import org.protesting.jft.config.RequirementConfig;
 import org.protesting.jft.form.Form;
 import org.protesting.jft.form.Template;
 import org.protesting.jft.form.fields.Field;
 import org.protesting.jft.form.requirements.Requirement;
-import org.protesting.jft.config.TcGenConfigurator;
+import org.protesting.jft.config.Configurator;
 import org.protesting.jft.data.DataParser;
 import org.protesting.jft.form.fields.FieldButton;
 import org.protesting.jft.form.fields.FieldFactory;
@@ -157,7 +158,7 @@ public class FileDataParser implements DataParser {
         if (el.getAttributes().getNamedItem("source") != null) {
             sourceName = el.getAttributes().getNamedItem("source").getNodeValue();
             reqObj = new Requirement("custom");
-            File template = TcGenConfigurator.getTemplateFile(sourceName);
+            File template = Configurator.getInstance().getTemplateFile(sourceName);
             field = FieldFactory.getField(fieldName, FieldFactory.getFieldIdByType(fieldType), (Template) getTemplate(template));
         } else {
             field = FieldFactory.getField(fieldName, FieldFactory.getFieldIdByType(fieldType));
@@ -192,7 +193,8 @@ public class FileDataParser implements DataParser {
             for (int j = 0; j < nlReq.getLength(); j++) {
                 Element req = (Element) nlReq.item(j);
                 String value = req.getAttributes().getNamedItem("type").getNodeValue();
-                String className = RequirementConfig.getRequirementData(value, RequirementConfig.XML_PARSER_CLASS);
+                String className = RequirementConfig.getInstance()
+                        .getRequirementData(value, RequirementConfig.XML_PARSER_CLASS);
                 try {
                     Class c = Class.forName(className);
                     Constructor con = c.getConstructor(new Class[]{(req).getClass()});

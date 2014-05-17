@@ -7,7 +7,7 @@ package org.protesting.jft.form.requirements;
  */
 public class TypifiedRequirement extends Requirement {
 
-    private String acceptedPatttern;
+    private String acceptedPattern;
     private int maxLength;
 
     private String type;
@@ -17,12 +17,12 @@ public class TypifiedRequirement extends Requirement {
         this.type = type;
     }
 
-    public String getAcceptedPatttern() {
-        return acceptedPatttern;
+    public String getAcceptedPattern() {
+        return acceptedPattern;
     }
 
-    public void setAcceptedPatttern(String acceptedPatttern) {
-        this.acceptedPatttern = acceptedPatttern;
+    public void setAcceptedPattern(String acceptedPattern) {
+        this.acceptedPattern = acceptedPattern;
     }
 
 

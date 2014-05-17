@@ -10,10 +10,10 @@ import java.util.List;
  */
 public class RequirementList {
 
-    private List requirementList;
+    private List<Requirement> requirementList;
 
     public RequirementList() {
-        requirementList = new ArrayList();
+        requirementList = new ArrayList<Requirement>();
     }
 
     public List getRequirementList() {
@@ -30,11 +30,10 @@ public class RequirementList {
 
 
     public String toString() {
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
 
-        for (int i = 0; i < requirementList.size(); i++) {
-            Requirement requirement = (Requirement) requirementList.get(i);
-            sb.append("\t\t").append(requirement).append("\n");
+        for (Requirement aRequirement : requirementList) {
+            sb.append("\t\t").append(aRequirement).append("\n");
         }
 
         return sb.toString();

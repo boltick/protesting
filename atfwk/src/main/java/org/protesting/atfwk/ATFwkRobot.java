@@ -27,9 +27,4 @@ public class ATFwkRobot extends Robot {
         }
     }
 
-
-    public static void main(String[] args) throws AWTException {
-        new ATFwkRobot().sendKeys("1234567890 test string !'\\ ?!.,/");
-    }
-
 }

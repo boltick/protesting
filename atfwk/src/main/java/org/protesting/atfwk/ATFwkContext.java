@@ -11,7 +11,7 @@ import java.util.Date;
  */
 public class ATFwkContext {
 
-    public static final Logger LOG = Logger.getLogger(ATFwkContext.class);
+    private static final Logger LOG = Logger.getLogger(ATFwkContext.class);
     /**
      * In current implementation resources directory is hardcoded: resources
      *

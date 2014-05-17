@@ -22,11 +22,9 @@ public abstract class AbstractBooleanValueGenerator extends AbstractValueGenerat
         this(new Field("unknown", requirement));
     }
 
-
     public BooleanRequirement getRequirement() {
         return (BooleanRequirement) getCommonRequirement();
     }
-
 
     public void addFormattedValues() {
         logger.debug("FormattedValues are not used in checked generator");

@@ -14,7 +14,7 @@ import org.apache.log4j.Logger;
  */
 public class ATFwkPage extends ATFwkObjectWithProperties {
 
-    public static final Logger LOG = Logger.getLogger(ATFwkPage.class);
+    private static final Logger LOG = Logger.getLogger(ATFwkPage.class);
 
     private String currentURL;
 

@@ -13,7 +13,7 @@ public class TemplateFilenameFilter implements FilenameFilter {
 
 
     public boolean accept(File dir, String name) {
-        File tobeChecked = new File(dir.getName() + File.separator + name);
+        File tobeChecked = new File(dir.getName(), name);
 
         return tobeChecked.getName().substring(tobeChecked.getName().lastIndexOf('.')+1, tobeChecked.getName().length()).equals("xml");
     }

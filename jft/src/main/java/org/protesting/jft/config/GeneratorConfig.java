@@ -17,7 +17,7 @@ import java.util.Properties;
  * Date: 26.02.2008
  * Time: 17:40:51
  */
-public final class GeneratorConfig {
+public class GeneratorConfig {
 
     private static final String GENERIC_XML_FILE = "generator.xml";
     private static final String SYMBOLS_CHAR_RANGE_FILE = "range";
@@ -33,43 +33,45 @@ public final class GeneratorConfig {
     public static final String SYMBOL_ALIASE = "alias";
     public static final String SYMBOL_CHAR_ENCODE = "encode";
 
-    private static Element generatorClassNameElement;
-    private static Element symbolProperyElement;
-    private static ResourceBundle symbolCharRangebundle;
-    private static Properties symbolCharRangeProperties;
+    private Element generatorClassNameElement;
+    private Element symbolPropertyElement;
+    private ResourceBundle symbolCharRangeBundle;
+    private Properties symbolCharRangeProperties;
 
-    static {
-        if (!Configurator.getProperties().get("jft.local").equals("true")) {
-            generatorClassNameElement = ParseHelper.getConfigElement(new GeneratorConfig(), Configurator.getProperties().get(Configurator.JFT_CONFIG_PATH)
-                    + File.separator
+    private static GeneratorConfig config;
+
+    private GeneratorConfig() throws IOException {
+        if (!Configurator.getInstance().getProperties().get("jft.local").equals("true")) {
+            generatorClassNameElement = ParseHelper.getConfigElement(Configurator.getInstance().getProperties().get(Configurator.JFT_CONFIG_PATH)
+                    + "/"
                     + GENERIC_XML_FILE);
 
-            symbolProperyElement = ParseHelper.getConfigElement(new GeneratorConfig(), Configurator.getProperties().get(Configurator.JFT_CONFIG_PATH)
-                    + File.separator
+            symbolPropertyElement = ParseHelper.getConfigElement(Configurator.getInstance().getProperties().get(Configurator.JFT_CONFIG_PATH)
+                    + "/"
                     + GENERIC_XML_FILE);
 
-            symbolCharRangebundle = ParseHelper.getResourceBundle(Configurator.getProperties().get(Configurator.JFT_CONFIG_PATH)
-                    + File.separator
+            symbolCharRangeBundle = ParseHelper.getResourceBundle(Configurator.getInstance().getProperties().get(Configurator.JFT_CONFIG_PATH)
+                    + "/"
                     + SYMBOLS_CHAR_RANGE_FILE, Locale.ENGLISH);
         } else {
             generatorClassNameElement = ParseHelper.getDocument(System.getProperty("user.dir")
-                    + File.separator
-                    + Configurator.getProperties().get(Configurator.JFT_CONFIG_PATH)
-                    + File.separator
+                    + "/"
+                    + Configurator.getInstance().getProperties().get(Configurator.JFT_CONFIG_PATH)
+                    + "/"
                     + GENERIC_XML_FILE).getDocumentElement();
 
-            symbolProperyElement = ParseHelper.getDocument(System.getProperty("user.dir")
-                    + File.separator
-                    + Configurator.getProperties().get(Configurator.JFT_CONFIG_PATH)
-                    + File.separator
+            symbolPropertyElement = ParseHelper.getDocument(System.getProperty("user.dir")
+                    + "/"
+                    + Configurator.getInstance().getProperties().get(Configurator.JFT_CONFIG_PATH)
+                    + "/"
                     + GENERIC_XML_FILE).getDocumentElement();
 
             symbolCharRangeProperties = new Properties();
             try {
                 File file = new File(System.getProperty("user.dir")
-                        + File.separator
-                        + Configurator.getProperties().get(Configurator.JFT_CONFIG_PATH)
-                        + File.separator
+                        + "/"
+                        + Configurator.getInstance().getProperties().get(Configurator.JFT_CONFIG_PATH)
+                        + "/"
                         + SYMBOLS_CHAR_RANGE_FILE + ".properties");
                 FileInputStream inputStream = new FileInputStream(file);
                 symbolCharRangeProperties.load(inputStream);
@@ -79,18 +81,25 @@ public final class GeneratorConfig {
         }
     }
 
+
+    public static GeneratorConfig getInstance() {
+        if (config == null) {
+            try {
+                config = new GeneratorConfig();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return config;
+    }
+
     /**
      * Method for getting class name of needed generator by generator type and data type from Generator.xml
      * @param genType generator type
      * @param dataType data type
      * @return class name of needed Generator
      */
-    synchronized public static String getGeneratorClassName(String genType, String dataType) {
-//  Local implementation
-//        Element generatorClassNameElement = ParseHelper.getDocument(Configurator.getProperties().get(Configurator.JFT_CONFIG_PATH)
-//                + File.separator
-//                + GENERIC_XML_FILE).getDocumentElement();
-
+    synchronized public String getGeneratorClassName(String genType, String dataType) {
         NodeList nl = generatorClassNameElement.getElementsByTagName(genType);
         if(nl != null && nl.getLength() > 0) {
             for(int i = 0 ; i < nl.getLength();i++) {
@@ -110,23 +119,10 @@ public final class GeneratorConfig {
      * @param symbolID id of symbol to be
      * @return char range of defined symbol
      */
-    synchronized public static String getSymbolCharRange(String symbolID) {
-//  Local implementation
-//        Properties props = new Properties();
-//        try {
-//            File file = new File(System.getProperty("user.dir")
-//                    + File.separator
-//                    + Configurator.getProperties().get(Configurator.JFT_CONFIG_PATH)
-//                    + File.separator
-//                    + SYMBOLS_CHAR_RANGE_FILE);
-//            FileInputStream inputStream = new FileInputStream(file);
-//            props.load(inputStream);
-//        } catch (IOException e) {
-//            throw new IllegalStateException("Symbol range property file read error." + e);
-//        }
+    synchronized public String getSymbolCharRange(String symbolID) {
         Object range = null;
-        if (!Configurator.getProperties().get("jft.local").equals("true")) {
-            range = symbolCharRangebundle.getString(symbolID);
+        if (!Configurator.getInstance().getProperties().get("jft.local").equals("true")) {
+            range = symbolCharRangeBundle.getString(symbolID);
         } else {
             range = symbolCharRangeProperties.get(symbolID);
         }
@@ -142,13 +138,8 @@ public final class GeneratorConfig {
      * @param propertyTofind - needed property
      * @return value of defined property of defined in generator.xml symbol
      */
-    synchronized public static String getSymbolPropery(String symbolID, String propertyTofind) {
-//  Local implementation
-//         Element symbolProperyElement = ParseHelper.getDocument(Configurator.getProperties().get(Configurator.JFT_CONFIG_PATH)
-//                + "/"
-//                + GENERIC_XML_FILE).getDocumentElement();
-
-        NodeList nl = symbolProperyElement.getElementsByTagName(SYMBOL_GENERATOR);
+    synchronized public String getSymbolProperty(String symbolID, String propertyTofind) {
+        NodeList nl = symbolPropertyElement.getElementsByTagName(SYMBOL_GENERATOR);
         if(nl != null && nl.getLength() > 0) {
             for(int i = 0 ; i < nl.getLength();i++) {
                 Element el = (Element)nl.item(i);
@@ -163,8 +154,9 @@ public final class GeneratorConfig {
     }
 
     public static void main(String[] args) throws IOException {
-        Configurator.init(new File("conf/jft.properties"));
-        String chars = getSymbolCharRange("symbols.japanese.hiragana");
+        Configurator.init(Configurator.getInstance().getClass().getClassLoader().getResource("config/jft.properties").openStream());
+
+        String chars = GeneratorConfig.getInstance().getSymbolCharRange("symbols.japanese.hiragana");
         CharSequence sequence = new StringBuffer(chars);
 
         System.out.println(chars);

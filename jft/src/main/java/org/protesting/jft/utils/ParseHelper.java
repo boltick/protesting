@@ -2,6 +2,7 @@ package org.protesting.jft.utils;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.protesting.jft.config.Configurator;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.xml.sax.SAXException;
@@ -143,9 +144,9 @@ public class ParseHelper {
         return dom;
     }
 
-    public static Element getConfigElement(Object object, String path) {
-        ClassLoader cl = object.getClass().getClassLoader();
-        InputStream stream = cl.getResourceAsStream(path);
+    public static Element getConfigElement(String path) throws IOException {
+        ClassLoader cl = Configurator.getInstance().getClass().getClassLoader();
+        InputStream stream = cl.getResource(path).openStream();
         return ParseHelper.getDocument(stream).getDocumentElement();
     }
 

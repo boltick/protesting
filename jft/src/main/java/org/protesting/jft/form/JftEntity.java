@@ -20,12 +20,12 @@ public class JftEntity {
 
     private String name;
 
-    private List fieldsList;
+    private List<Field> fieldsList;
 
     public JftEntity(String name, int entityType) {
         this.name = name;
         this.entityType = entityType;
-        this.fieldsList = new ArrayList();
+        this.fieldsList = new ArrayList<Field>();
     }
 
     public List getFieldsList() {
@@ -37,10 +37,9 @@ public class JftEntity {
     }
 
     public Field getFieldByName(String name) {
-        for (int i = 0; i < fieldsList.size(); i++) {
-            Field field = (Field) fieldsList.get(i);
-            if (field.getName().equals(name)) {
-                return field;
+        for (Field aField : fieldsList) {
+            if (aField.getName().equals(name)) {
+                return aField;
             }
         }
         return null;
@@ -56,11 +55,10 @@ public class JftEntity {
     }
 
     public String toString() {
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         sb.append("Form: ").append(name).append(System.getProperty("line.separator"));
-        for (int i = 0; i < fieldsList.size(); i++) {
-            Field field = (Field) fieldsList.get(i);
-            sb.append(field.toString());
+        for (Field aField : fieldsList) {
+            sb.append(aField.toString());
         }
         return sb.toString();
     }

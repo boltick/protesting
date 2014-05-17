@@ -46,9 +46,9 @@ public class BoundaryValueGenerator extends AbstractBoundaryValueGenerator {
             return;
         }
         // format values
-        List first = new ArrayList(getRowValues());
+        List<TestValue> first = new ArrayList<TestValue>(getRowValues());
         for (int i = 0; i < first.size(); i++) {
-            TestValue value = (TestValue) first.get(i);
+            TestValue value = first.get(i);
             TestValue testValue = new TestValue(value);
             testValue.setValue(getRequirement().getFormatType().format(testValue.getValue()));
             testValue.setDescription(testValue.getDescription() + " CORRECTLY FORMATTED");

@@ -17,18 +17,17 @@ public class ValueGenerator {
 
     private static Log logger = LogFactory.getLog(Generator .class);
 
-    private List rowValues;
+    private List <TestValue> rowValues;
 
 
     protected ValueGenerator() {
-        this.rowValues = new ArrayList();
+        this.rowValues = new ArrayList<TestValue>();
     }
 
     public List getAllPositive() {
-        List positive = new ArrayList();
-        for (int i = 0; i < rowValues.size(); i++) {
-            TestValue value = (TestValue) rowValues.get(i);
-            if(value.isOk()) {
+        List<TestValue> positive = new ArrayList<TestValue>();
+        for (TestValue value : rowValues) {
+            if (value.isOk()) {
                 positive.add(value);
             }
         }
@@ -36,10 +35,9 @@ public class ValueGenerator {
     }
 
     public List getAllNegative() {
-        List negative = new ArrayList();
-        for (int i = 0; i < rowValues.size(); i++) {
-            TestValue value = (TestValue) rowValues.get(i);
-            if(!value.isOk()) {
+        List<TestValue> negative = new ArrayList<TestValue>();
+        for (TestValue value : rowValues) {
+            if (!value.isOk()) {
                 negative.add(value);
             }
         }
@@ -50,14 +48,13 @@ public class ValueGenerator {
         return rowValues;
     }
 
-    public void setRowValues(List rowValues) {
+    public void setRowValues(List<TestValue> rowValues) {
         this.rowValues = rowValues;
     }
 
     protected void addValue(TestValue value) {
         boolean isExist = false;
-        for (int i = 0; i < rowValues.size(); i++) {
-            TestValue testValue = (TestValue) rowValues.get(i);
+        for (TestValue testValue : rowValues) {
             if (testValue.getValue().equals(value.getValue())) {
                 isExist = true;
             }

@@ -27,7 +27,8 @@ public abstract class AbstractBoundaryValueGenerator extends AbstractValueGenera
 
     public Object initGenerator() throws Exception {
         logger.debug("GenericGenerator initialization - started");
-        String className = GeneratorConfig.getGeneratorClassName(GeneratorConfig.GENERIC_GENERATOR, getRequirement().getLeftBoundary().getClass().getName());
+        String className = GeneratorConfig.getInstance()
+                .getGeneratorClassName(GeneratorConfig.GENERIC_GENERATOR, getRequirement().getLeftBoundary().getClass().getName());
         Class genClass = Class.forName(className);
         GenericGenerator genericGenerator = (GenericGenerator) genClass.newInstance();
         logger.debug("GenericGenerator initialization - finished");

@@ -2,11 +2,16 @@ package org.protesting.jft.config;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.protesting.jft.utils.ParseHelper;
+import org.protesting.jft.utils.TemplateFilenameFilter;
+import org.w3c.dom.Element;
 import sun.security.util.Resources;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.URISyntaxException;
 import java.util.*;
 
 /**
@@ -22,26 +27,28 @@ public class Configurator {
     public static final String TEST_CASE_TYPE = "test.case.type";
     public static final String JFT_CONFIG_PATH = "jft.config.path";
 
-    private static Properties properties;
-    private static Map symbols;
+    public static final String CUSTOM_TEMPLATE_PATH = "custom.templates.path";
+    public static final String OUTPUT_DATA_SOURCE = "output.data.source";
+    public static final String OUTPUT_PATH = "output.path";
 
-    /**
-     * static initialization of log folder and Jft Configuration logger
-     */
-    static {
-//        File log = new File("logs");
-//        if (!log.exists()) {
-//            log.mkdir();
-//        }
-//        logger = LogFactory.getLog(Configurator.class);
+    public static final String INPUT_DATA_SOURCE = "input.data.source";
+    public static final String INPUT_PATH = "input.path";
+
+    private Properties properties;
+    private static Map symbols;
+    private static Configurator configurator;
+    private static Map templates;
+
+
+    private Configurator() {
     }
 
     /**
      * Default constructor
      */
-    Configurator() {
-        new GeneratorConfig();
-        new RequirementConfig();
+    private Configurator(Properties properties) {
+        super();
+        this.properties = properties;
     }
 
     /**
@@ -50,31 +57,45 @@ public class Configurator {
      * @throws java.io.IOException, if property file does not exist
      */
     public static void init(File propertyFile) throws IOException {
-        properties = new Properties();
+        Properties properties = new Properties();
         if (propertyFile.exists()) {
             properties.load(new FileInputStream(propertyFile));
         } else {
             init(Resources.getBundle("jft"));
-//            throw new IllegalStateException("Jft properties are not defined");
         }
-        initSupportedSymbols();
+        configurator = new Configurator(properties);
+        configurator.initSupportedSymbols();
+    }
+
+    public static void init(InputStream propertyInputStream) throws IOException {
+        Properties properties = new Properties();
+        if (null != propertyInputStream) {
+            properties.load(propertyInputStream);
+        }
+        configurator = new Configurator(properties);
+        configurator.initSupportedSymbols();
+        configurator.initResultDir();
+        configurator.initTemplates();
     }
 
     public static void init(ResourceBundle resourceBundle) throws IOException {
-        properties = new Properties();
+        Properties properties = new Properties();
         Enumeration  keys = resourceBundle.getKeys();
         while (keys.hasMoreElements()) {
             String key = (String) keys.nextElement();
             properties.put(key, resourceBundle.getString(key));
         }
-        initSupportedSymbols();
+        configurator = new Configurator(properties);
+        configurator.initSupportedSymbols();
     }
+
+
 
     /**
      * Static propertes Getter
      * @return Propertis object with Jft intialized Jft properties
      */
-    public static Properties getProperties() {
+    public Properties getProperties() {
         return properties;
     }
 
@@ -83,7 +104,7 @@ public class Configurator {
      * @param key properties key
      * @return value of properties <code>key</code>
      */
-    public static String getProperty(String key) {
+    public String getProperty(String key) {
         if (getProperties().getProperty(key) == null) {
             throw new IllegalStateException("Property ["+key+"] is not defined");
         }
@@ -93,7 +114,7 @@ public class Configurator {
     /**
      * Private method fro initialization of supported for generation symbols
      */
-    private static void initSupportedSymbols() {
+    private void initSupportedSymbols() {
         symbols = new HashMap();
         Enumeration en = properties.keys();
         logger.debug("Supported Symbols init - started");
@@ -117,13 +138,13 @@ public class Configurator {
      * @return true, if symbol has complete configuration <br>
      *         false, if in all other cases
      */
-    private static boolean checkSymbolsSetup(String key) {
-        if(GeneratorConfig.getSymbolCharRange(key) == null || GeneratorConfig.getSymbolCharRange(key).equals("")) {
+    private boolean checkSymbolsSetup(String key) {
+        if(GeneratorConfig.getInstance().getSymbolCharRange(key) == null || GeneratorConfig.getInstance().getSymbolCharRange(key).equals("")) {
             logger.debug("Char Range is no definet for key ["+key+"]");
             return false;
         }
-        if (GeneratorConfig.getSymbolPropery(key, GeneratorConfig.SYMBOL_ALIASE) == null
-                || GeneratorConfig.getSymbolPropery(key, GeneratorConfig.SYMBOL_ALIASE).equals("")) {
+        if (GeneratorConfig.getInstance().getSymbolProperty(key, GeneratorConfig.SYMBOL_ALIASE) == null
+                || GeneratorConfig.getInstance().getSymbolProperty(key, GeneratorConfig.SYMBOL_ALIASE).equals("")) {
             logger.debug("Symbol key ["+key+"] is not properly defined in Generator.xml");
             return false;
         }
@@ -134,8 +155,70 @@ public class Configurator {
      * Method returms map of supposrted for generation symbols
      * @return Map of supported for Jft symbols
      */
-    public static Map getSupportedSymbols() {
+    public Map getSupportedSymbols() {
         return symbols;
     }
 
+    void initResultDir() {
+        String output =
+                getInstance().getProperties().getProperty(OUTPUT_PATH) == null ?
+                        System.getProperty("user.dir") : getInstance().getProperties().getProperty(OUTPUT_PATH);
+        File resultDir = new File(output);
+        if (!resultDir.exists() && !resultDir.isDirectory()) {
+            resultDir.mkdir();
+        }
+    }
+
+
+    void initTemplates() {
+        templates = new HashMap();
+        File dir = null;
+        try {
+            dir = new File(System.getProperty("user.dir"), getInstance().getProperty(CUSTOM_TEMPLATE_PATH));
+            if(!dir.exists()) {
+                dir = new File(Configurator.getInstance().getClass().getClassLoader().getResource(getInstance().getProperty(CUSTOM_TEMPLATE_PATH)).toURI());
+            }
+        } catch (URISyntaxException e) {
+            logger.error("Error reading templates directory: " + getInstance().getProperty(CUSTOM_TEMPLATE_PATH));
+            e.printStackTrace();
+        }
+        File [] list = dir.listFiles(new TemplateFilenameFilter());
+        if (list == null || list.length == 0) {
+            logger.debug("No Templates available");
+            return;
+        }
+
+        for (int i = 0; i < list.length; i++) {
+            File file = list[i];
+            try {
+                if (file.isDirectory()) continue;
+                Element docEle = ParseHelper.getDocument(file).getDocumentElement();
+
+                if (docEle.getNodeName().equalsIgnoreCase("type")) {
+                    String name = docEle.getAttributes().getNamedItem("name").getNodeValue();
+                    if (templates.containsKey(name)) {
+                        logger.warn("Non unique template: name=["+ name+"] and path: " + file.getPath());
+                    } else {
+                        templates.put(name, file.getPath());
+                    }
+                }
+            } catch (Exception ex) {
+                logger.warn("file " + file.getName() + " is skipped. " + ex);
+            }
+        }
+    }
+
+    public File getTemplateFile(String templateName) {
+        String fileName = (String)templates.get(templateName);
+        if (fileName != null) {
+            return new File(fileName);
+        }
+
+        logger.error("Source Template ["+templateName+"] is not found in folder: " + getProperty("custom.templates.path"));
+        throw  new IllegalStateException("Source Template ["+templateName+"] is not found in folder: " + getProperty("custom.templates.path"));
+    }
+
+    public static Configurator getInstance() {
+        return null != configurator ? configurator : new Configurator();
+    }
 }

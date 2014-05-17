@@ -3,15 +3,15 @@ package org.protesting.jft.tcgen;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.protesting.jft.config.Configurator;
-import org.protesting.jft.config.GeneratorConfig;
 import org.protesting.jft.form.Form;
-import org.protesting.jft.config.TcGenConfigurator;
+import org.protesting.jft.config.Configurator;
 import org.protesting.jft.data.ParseFactory;
 import org.protesting.jft.tcgen.testsuite.TestSuiteBuilder;
 import org.protesting.jft.testsuite.TestCaseGenerator;
 import sun.security.util.Resources;
 
 import java.io.*;
+import java.lang.reflect.InvocationTargetException;
 import java.net.URISyntaxException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -26,11 +26,10 @@ import java.util.List;
  */
 public class TcGenerationRunner{
 
-    private static Log logger;
+    private static Log logger = LogFactory.getLog(TcGenerationRunner.class);
 
-//    private static final String DEFAULT_JFT_PROPERTY_PATH = "conf/org.protesting.jft.property";
     private static final String JFT_PROPERTY_PARAMETER = "-p";
-    private static final String JFT_FILEPROCESS_PARAMETER = "-f";
+    private static final String JFT_FILE_PROCESS_PARAMETER = "-f";
 
     private String output;
     private File [] inputFileList;
@@ -38,48 +37,33 @@ public class TcGenerationRunner{
 
     private static DateFormat format = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
 
-    static {
-//        try {
-//            Configurator.init(Resources.getBundle("jft"));
-//            Configurator.init(
-//                    new File(Configurator.class.getClassLoader().getResource("jft.properties").toURI()));
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//        catch (URISyntaxException e) {
-//            e.printStackTrace();
-//        }
-//        File logDir = new File("log");
-//        if (!logDir.exists() && !logDir.isDirectory()) {
-//            logDir.mkdir();
-//        }
-        logger = LogFactory.getLog(TcGenerationRunner.class);
-    }
-
     public TcGenerationRunner() throws IOException {
-        this((String) Configurator.getProperties().get(Configurator.JFT_CONFIG_PATH));
+        this((String) Configurator.getInstance().getProperties().get(Configurator.JFT_CONFIG_PATH));
     }
 
 
     public TcGenerationRunner(String propertyFilePath, String filePath) throws IOException {
-        TcGenConfigurator.initTcGen(new File(propertyFilePath));
+        Configurator.init(Configurator.getInstance().getClass().getResource(propertyFilePath).openStream());
         this.inputFileList = new File[]{new File(filePath)};
-        this.output = TcGenConfigurator.getProperty(TcGenConfigurator.OUTPUT_DATA_SOURCE) == null ||
-                TcGenConfigurator.getProperty(TcGenConfigurator.OUTPUT_DATA_SOURCE).equalsIgnoreCase("") ?
-                "xml" : TcGenConfigurator.getProperty(TcGenConfigurator.OUTPUT_DATA_SOURCE);
-        this.caseTypes = TcGenConfigurator.getProperty("test.case.type").split(",");
+        this.output = Configurator.getInstance().getProperty(Configurator.OUTPUT_DATA_SOURCE) == null ||
+                Configurator.getInstance().getProperty(Configurator.OUTPUT_DATA_SOURCE).equalsIgnoreCase("") ?
+                "xml" : Configurator.getInstance().getProperty(Configurator.OUTPUT_DATA_SOURCE);
+        this.caseTypes = Configurator.getInstance().getProperty("test.case.type").split(",");
     }
 
 
     private TcGenerationRunner(String propertyFilePath) throws IOException {
-        TcGenConfigurator.initTcGen(new File(propertyFilePath));
+        InputStream inputStream  = Configurator.getInstance().getClass().getResource(propertyFilePath).openStream();
+        Configurator.init(inputStream);
+        inputStream.close();
         File dir = null;
         try {
             dir = new File(
-                    (new GeneratorConfig())
+                    Configurator
+                            .getInstance()
                             .getClass()
                             .getClassLoader()
-                            .getResource(TcGenConfigurator.getProperty(TcGenConfigurator.INPUT_PATH)).toURI()
+                            .getResource(Configurator.getInstance().getProperty(Configurator.INPUT_PATH)).toURI()
             );
         } catch (URISyntaxException e) {
             e.printStackTrace();
@@ -89,10 +73,10 @@ public class TcGenerationRunner{
             logger.debug("input data folder is empty");
             System.exit(0);
         }
-        this.output = TcGenConfigurator.getProperty(TcGenConfigurator.OUTPUT_DATA_SOURCE) == null ||
-                TcGenConfigurator.getProperty(TcGenConfigurator.OUTPUT_DATA_SOURCE).equalsIgnoreCase("") ?
-                "xml" : TcGenConfigurator.getProperty(TcGenConfigurator.OUTPUT_DATA_SOURCE);
-        this.caseTypes = TcGenConfigurator.getProperty("test.case.type").split(",");
+        this.output = Configurator.getInstance().getProperty(Configurator.OUTPUT_DATA_SOURCE) == null ||
+                Configurator.getInstance().getProperty(Configurator.OUTPUT_DATA_SOURCE).equalsIgnoreCase("") ?
+                "xml" : Configurator.getInstance().getProperty(Configurator.OUTPUT_DATA_SOURCE);
+        this.caseTypes = Configurator.getInstance().getProperty("test.case.type").split(",");
     }
 
 
@@ -109,14 +93,14 @@ public class TcGenerationRunner{
 
     public void generate() {
         try {
-            logger.debug("Output data source ["+Configurator.getProperty(TcGenConfigurator.OUTPUT_DATA_SOURCE)+"]");
+            logger.debug("Output data source ["+Configurator.getInstance().getProperty(Configurator.OUTPUT_DATA_SOURCE)+"]");
             if (TestSuiteBuilder.isSupportedMode(output)) {
                 for (int i = 0; i < inputFileList.length; i++) {
                     new GeneratorThread(i).start();
                 }
             } else {
-                logger.error("output data source ["+Configurator.getProperty(TcGenConfigurator.OUTPUT_DATA_SOURCE)+"] is not recognized");
-                throw new IllegalStateException("Unknown output data source: " + Configurator.getProperty(TcGenConfigurator.OUTPUT_DATA_SOURCE));
+                logger.error("output data source ["+Configurator.getInstance().getProperty(Configurator.OUTPUT_DATA_SOURCE)+"] is not recognized");
+                throw new IllegalStateException("Unknown output data source: " + Configurator.getInstance().getProperty(Configurator.OUTPUT_DATA_SOURCE));
             }
         } catch (Exception e) {
             logger.error(e);
@@ -183,7 +167,7 @@ public class TcGenerationRunner{
     }
 
     /*
-      javac -cp. jft.jar -pconf/org.protesting.jft.property
+      javac -cp. jft.jar -pconf/jft.property
       javac -cp. jft.jar
     */
     public static void main(String[] args) throws IOException {
@@ -193,7 +177,7 @@ public class TcGenerationRunner{
             jft = new TcGenerationRunner();
         } else {
             String propPath = getValueStartWith(args, JFT_PROPERTY_PARAMETER);
-            String filePath = getValueStartWith(args, JFT_FILEPROCESS_PARAMETER);
+            String filePath = getValueStartWith(args, JFT_FILE_PROCESS_PARAMETER);
 
             if (propPath.equals("") && filePath.equals("")) {
                 jft = new TcGenerationRunner();
@@ -202,7 +186,7 @@ public class TcGenerationRunner{
                 jft = new TcGenerationRunner(propPath, filePath);
             } else
             if (propPath.equals("") && !filePath.equals("")) {
-                jft = new TcGenerationRunner((String) Configurator.getProperties().get(Configurator.JFT_CONFIG_PATH), filePath);
+                jft = new TcGenerationRunner((String) Configurator.getInstance().getProperties().get(Configurator.JFT_CONFIG_PATH), filePath);
             } else
                 jft = new TcGenerationRunner(propPath);
         }
@@ -225,16 +209,29 @@ public class TcGenerationRunner{
             File file = getInputFileList()[getIndex()];
             String filename = file.getName();
             String ext = filename.substring(filename.lastIndexOf('.')+1, filename.length());
-            if(ext.equals(TcGenConfigurator.getProperty(TcGenConfigurator.INPUT_DATA_SOURCE))) {
-                Form form = ParseFactory.getForm(file, TcGenConfigurator.getProperty(TcGenConfigurator.INPUT_DATA_SOURCE));
+            if(ext.equals(Configurator.getInstance().getProperty(Configurator.INPUT_DATA_SOURCE))) {
+                Form form = null;
+                try {
+                    form = ParseFactory.getForm(file, Configurator.getInstance().getProperty(Configurator.INPUT_DATA_SOURCE));
+                } catch (ClassNotFoundException e) {
+                    e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                } catch (InstantiationException e) {
+                    e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                } catch (NoSuchMethodException e) {
+                    e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                } catch (InvocationTargetException e) {
+                    e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                }
                 if (form == null || form.getEntityType() != Form.FORM_ENTITY) {
                     return;
                 }
                 // todo file name construction has to be changed!!!
-                boolean fl =  TcGenConfigurator.getProperty(TcGenConfigurator.OUTPUT_PATH) == null ||
-                        TcGenConfigurator.getProperty(TcGenConfigurator.OUTPUT_PATH).equalsIgnoreCase("");
+                boolean fl =  Configurator.getInstance().getProperty(Configurator.OUTPUT_PATH) == null ||
+                        Configurator.getInstance().getProperty(Configurator.OUTPUT_PATH).equalsIgnoreCase("");
 
-                String folder = fl ? System.getProperty("user.dir") : TcGenConfigurator.getProperty(TcGenConfigurator.OUTPUT_PATH);
+                String folder = fl ? System.getProperty("user.dir") : Configurator.getInstance().getProperty(Configurator.OUTPUT_PATH);
 
                 File direc = new File(getUniquieSuiteFileName(folder + File.separator +form.getName() + "_suite"));
 
@@ -246,21 +243,19 @@ public class TcGenerationRunner{
                     // to support output type "propery":
                     if (!getOutput().equalsIgnoreCase("property")) {
                         if (getOutput().equalsIgnoreCase("testcase")) {
-                            suitename = direc.getPath()
-                                    + File.separator + form.getName()+"_"+type+"_testcase.xml";
+                            suitename = "_testcase.xml";
                         } else if(getOutput().equalsIgnoreCase("v1-xml")) {
-                            suitename = direc.getPath()
-                                    + File.separator + form.getName()+"_"+type+"_ts.xml";
+                            suitename = "_ts.xml";
                         } else {
-                            suitename = direc.getPath()
-                                    + File.separator + form.getName()+"_"+type+"_ts."+getOutput();
+                            suitename = "_ts."+getOutput();
                         }
                     } else {
-                        suitename = direc.getPath()
-                                + File.separator + form.getName()+"_ts."+getOutput();
+                        suitename = "_ts."+getOutput();
                     }
+                    suitename = direc.getPath() + File.separator + form.getName() + "_" + type + suitename;
+
                     TestCaseGenerator generator = new TestCaseGenerator(form);
-                    List casesList = generator.getTestCases(type, Configurator.getProperty("test.case.generation.method"));
+                    List casesList = generator.getTestCases(type, Configurator.getInstance().getProperty("test.case.generation.method"));
 
                     TestSuiteBuilder.buildTestSuite(casesList, suitename, getOutput());
 
@@ -268,10 +263,10 @@ public class TcGenerationRunner{
                         try {
                             File source = null;
                             source = new File(Configurator.class.getClassLoader()
-                                    .getResource(Configurator.getProperty("test.suite.xslt")).toURI());
+                                    .getResource(Configurator.getInstance().getProperty("test.suite.xslt")).toURI());
                             File target = new File(direc.getAbsolutePath()
                                     + File.separator
-                                    + TcGenConfigurator.getProperty("test.suite.xslt"));
+                                    + Configurator.getInstance().getProperty("test.suite.xslt"));
 
                             copyfile(source, target);
                         } catch (URISyntaxException e) {

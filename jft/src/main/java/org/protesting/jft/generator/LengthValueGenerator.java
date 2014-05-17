@@ -62,14 +62,14 @@ public class LengthValueGenerator extends AbstractLengthValueGenerator {
     private List getValues(int length, String description) {
         List valuesList = new ArrayList();
 
-        Map symbolsMap = Configurator.getSupportedSymbols();
+        Map symbolsMap = Configurator.getInstance().getSupportedSymbols();
         Set keys = symbolsMap.keySet();
         for (Iterator iterator = keys.iterator(); iterator.hasNext();) {
             Object key = iterator.next();
-            String desc = GeneratorConfig.getSymbolPropery(key.toString(),
-                    GeneratorConfig.SYMBOL_ALIASE) + " "+ description;
+            String desc = GeneratorConfig.getInstance()
+                    .getSymbolProperty(key.toString(), GeneratorConfig.SYMBOL_ALIASE) + " "+ description;
 
-            String range = GeneratorConfig.getSymbolCharRange(key.toString());
+            String range = GeneratorConfig.getInstance().getSymbolCharRange(key.toString());
             String regexp = null;
             if (getRequirement().getForbiddenChars() != null && !getRequirement().getForbiddenChars().equals("")) {
                 regexp = "["+getRequirement().getForbiddenChars()+"]*";
@@ -85,14 +85,16 @@ public class LengthValueGenerator extends AbstractLengthValueGenerator {
                     sb.append(
                             getTestValue(length - sb.toString().length(),
                                     range,
-                                    GeneratorConfig.getSymbolPropery(key.toString(), GeneratorConfig.SYMBOL_CHAR_ENCODE))
+                                    GeneratorConfig.getInstance()
+                                            .getSymbolProperty(key.toString(), GeneratorConfig.SYMBOL_CHAR_ENCODE))
                                     .replaceAll(regexp, ""));
                     counter++;
                 }  while(sb.toString().length() != length && counter <50);
                 if (sb.toString().equalsIgnoreCase("")) {
                     testValue = getTestValue(length - sb.toString().length(),
                             range,
-                            GeneratorConfig.getSymbolPropery(key.toString(), GeneratorConfig.SYMBOL_CHAR_ENCODE));
+                            GeneratorConfig.getInstance()
+                                    .getSymbolProperty(key.toString(), GeneratorConfig.SYMBOL_CHAR_ENCODE));
                 } else {
                     testValue = sb.toString();
                 }
@@ -198,11 +200,12 @@ public class LengthValueGenerator extends AbstractLengthValueGenerator {
             }
         }
 
-        Map symbolsMap = Configurator.getSupportedSymbols();
+        Map symbolsMap = Configurator.getInstance().getSupportedSymbols();
         Set keys = symbolsMap.keySet();
         for (Iterator iterator = keys.iterator(); iterator.hasNext();) {
             Object key = iterator.next();
-            String toBeRemoved = GeneratorConfig.getSymbolPropery(key.toString(), GeneratorConfig.SYMBOL_ALIASE);
+            String toBeRemoved = GeneratorConfig.getInstance()
+                    .getSymbolProperty(key.toString(), GeneratorConfig.SYMBOL_ALIASE);
             for (int i = 0; i < falseValuesList.size(); i++) {
                 TestValue testValue  = (TestValue) falseValuesList.get(i);
                 if (testValue.getDescription().equalsIgnoreCase(toBeRemoved + " " + MAXIMUM_LENGTH) ) {
